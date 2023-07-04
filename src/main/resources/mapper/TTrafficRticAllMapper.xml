@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cennavi.trafficsystem.roadsituation.web.model.TTrafficRticAll">
+
+	<resultMap id="BaseResultMap" type="com.cennavi.trafficsystem.roadsituation.web.model.TTrafficRticAll">
+		<result property="rticId" column="RTIC_ID" jdbcType = "BIGINT" />
+		<result property="rticName" column="RTIC_NAME" jdbcType = "VARCHAR" />
+		<result property="startName" column="START_NAME" jdbcType = "VARCHAR" />
+		<result property="endName" column="END_NAME" jdbcType = "VARCHAR" />
+		<result property="rticLength" column="RTIC_LENGTH" jdbcType = "DOUBLE PRECISION" />
+		<result property="rticKind" column="RTIC_KIND" jdbcType = "INTEGER" />
+		<result property="laneNum" column="LANE_NUM" jdbcType = "INTEGER" />
+		<result property="vktCoef" column="VKT_COEF" jdbcType = "DOUBLE PRECISION" />
+		<result property="rticFreeflow" column="RTIC_FREEFLOW" jdbcType = "DOUBLE PRECISION" />
+		<result property="rticWidth" column="RTIC_WIDTH" jdbcType = "DOUBLE PRECISION" />
+		<result property="rticCenter" column="RTIC_CENTER" jdbcType = "VARCHAR" />
+		<result property="rticGeometry" column="RTIC_GEOMETRY" jdbcType = "VARCHAR" />
+		<result property="direction" column="DIRECTION" jdbcType = "INTEGER" />
+		<result property="rticFuncclass" column="RTIC_FUNCCLASS" jdbcType = "INTEGER" />
+		<result property="version" column="VERSION" jdbcType = "VARCHAR" />
+		<result property="createTime" column="CREATE_TIME" jdbcType = "TIMESTAMP" />
+		<result property="........pg.dropped.17........" column="........pg.dropped.17........" jdbcType = "-" />
+	</resultMap>
+
+	<sql id="querySql">
+		SELECT
+			a."RTIC_ID", 
+			a."RTIC_NAME", 
+			a."START_NAME", 
+			a."END_NAME", 
+			a."RTIC_LENGTH", 
+			a."RTIC_KIND", 
+			a."LANE_NUM", 
+			a."VKT_COEF", 
+			a."RTIC_FREEFLOW", 
+			a."RTIC_WIDTH", 
+			a."RTIC_CENTER", 
+			a."RTIC_GEOMETRY", 
+			a."DIRECTION", 
+			a."RTIC_FUNCCLASS", 
+			a."VERSION", 
+			a."CREATE_TIME", 
+			a."........pg.dropped.17........" 
+		FROM
+	</sql>
+
+	<sql id="FromSql">
+			t_traffic_rtic_all a 
+	</sql>
+
+	<insert id="insert" parameterType="java.util.HashMap">
+		INSERT INTO t_traffic_rtic_all
+		(
+		<foreach item="value" index="key" collection="entity" separator=",">
+			${key}
+		</foreach>
+		)VALUES(
+		<foreach item="value" index="key" collection="entity" separator=",">
+			#{value}
+		</foreach>
+		)
+	 </insert>
+
+	<update id="update" parameterType="java.util.HashMap">
+		update t_traffic_rtic_all
+		<set>
+		<foreach item="value" index="key" collection="entity" separator=",">
+			<if test="key!='ID'  and value!=null">${key}= #{value}</if>
+		</foreach>
+		</set>
+			 where "ID" = #{id}
+	 </update>
+
+	<select id="queryList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="querySql"/>
+		<include refid="FromSql"/>
+		<if test="queryFilterSql !='' and queryFilterSql!=null">
+			WHERE ${queryFilterSql}
+		 </if>
+		<if test="sortSql !='' and sortSql!=null">
+			 order by ${sortSql}
+		 </if>
+	</select>
+
+	<select id="querySize" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+			count(*)
+		FROM
+			<include refid="FromSql"/>
+		<if test="queryFilterSql !='' and queryFilterSql!=null">
+			 WHERE ${queryFilterSql}
+		 </if>
+	</select>
+
+	<select id="findById" parameterType="java.lang.String"
+		resultType="com.cennavi.trafficsystem.roadsituation.web.model.TTrafficRticAll">
+			SELECT
+			 *
+			FROM
+			t_traffic_rtic_all
+		WHERE "ID" = #{id}
+	</select>
+
+
+</mapper>

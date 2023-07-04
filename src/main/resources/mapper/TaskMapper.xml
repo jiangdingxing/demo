@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cennavi.trafficsystem.roadsituation.web.model.Task">
+
+	<resultMap id="BaseResultMap" type="com.cennavi.trafficsystem.roadsituation.web.model.Task">
+		<result property="taskId" column="task_id" jdbcType = "INTEGER" />
+		<result property="recordId" column="record_id" jdbcType = "INTEGER" />
+		<result property="taskName" column="task_name" jdbcType = "VARCHAR" />
+		<result property="version" column="version" jdbcType = "INTEGER" />
+		<result property="layerName" column="layer_name" jdbcType = "VARCHAR" />
+		<result property="filePath" column="file_path" jdbcType = "VARCHAR" />
+		<result property="fileSize" column="file_size" jdbcType = "NUMERIC" />
+		<result property="fileCount" column="file_count" jdbcType = "INTEGER" />
+		<result property="coordinate" column="coordinate" jdbcType = "VARCHAR" />
+		<result property="projection" column="projection" jdbcType = "VARCHAR" />
+		<result property="rate" column="rate" jdbcType = "NUMERIC" />
+		<result property="step" column="step" jdbcType = "INTEGER" />
+		<result property="stepName" column="step_name" jdbcType = "VARCHAR" />
+		<result property="isDel" column="is_del" jdbcType = "INTEGER" />
+		<result property="delDate" column="del_date" jdbcType = "DATE" />
+		<result property="addDate" column="add_date" jdbcType = "DATE" />
+		<result property="addUserId" column="add_user_id" jdbcType = "INTEGER" />
+		<result property="addUserName" column="add_user_name" jdbcType = "VARCHAR" />
+	</resultMap>
+
+	<sql id="querySql">
+		SELECT
+			a."task_id", 
+			a."record_id", 
+			a."task_name", 
+			a."version", 
+			a."layer_name", 
+			a."file_path", 
+			a."file_size", 
+			a."file_count", 
+			a."coordinate", 
+			a."projection", 
+			a."rate", 
+			a."step", 
+			a."step_name", 
+			a."is_del", 
+			a."del_date", 
+			a."add_date", 
+			a."add_user_id", 
+			a."add_user_name" 
+		FROM
+	</sql>
+
+	<sql id="FromSql">
+			task a 
+	</sql>
+
+	<insert id="insert" parameterType="java.util.HashMap">
+		INSERT INTO task
+		(
+		<foreach item="value" index="key" collection="entity" separator=",">
+			${key}
+		</foreach>
+		)VALUES(
+		<foreach item="value" index="key" collection="entity" separator=",">
+			#{value}
+		</foreach>
+		)
+	 </insert>
+
+	<update id="update" parameterType="java.util.HashMap">
+		update task
+		<set>
+		<foreach item="value" index="key" collection="entity" separator=",">
+			<if test="key!='ID'  and value!=null">${key}= #{value}</if>
+		</foreach>
+		</set>
+			 where "ID" = #{id}
+	 </update>
+
+	<select id="queryList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="querySql"/>
+		<include refid="FromSql"/>
+		<if test="queryFilterSql !='' and queryFilterSql!=null">
+			WHERE ${queryFilterSql}
+		 </if>
+		<if test="sortSql !='' and sortSql!=null">
+			 order by ${sortSql}
+		 </if>
+	</select>
+
+	<select id="querySize" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+			count(*)
+		FROM
+			<include refid="FromSql"/>
+		<if test="queryFilterSql !='' and queryFilterSql!=null">
+			 WHERE ${queryFilterSql}
+		 </if>
+	</select>
+
+	<select id="findById" parameterType="java.lang.String"
+		resultType="com.cennavi.trafficsystem.roadsituation.web.model.Task">
+			SELECT
+			 *
+			FROM
+			task
+		WHERE "ID" = #{id}
+	</select>
+
+
+</mapper>

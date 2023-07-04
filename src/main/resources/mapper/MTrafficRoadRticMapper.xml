@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cennavi.trafficsystem.roadsituation.web.model.MTrafficRoadRtic">
+
+	<resultMap id="BaseResultMap" type="com.cennavi.trafficsystem.roadsituation.web.model.MTrafficRoadRtic">
+		<result property="roadId" column="ROAD_ID" jdbcType = "BIGINT" />
+		<result property="rticNo" column="RTIC_NO" jdbcType = "INTEGER" />
+		<result property="rticId" column="RTIC_ID" jdbcType = "BIGINT" />
+		<result property="version" column="VERSION" jdbcType = "VARCHAR" />
+		<result property="createTime" column="CREATE_TIME" jdbcType = "TIMESTAMP" />
+		<result property="........pg.dropped.6........" column="........pg.dropped.6........" jdbcType = "-" />
+	</resultMap>
+
+	<sql id="querySql">
+		SELECT
+			a."ROAD_ID", 
+			a."RTIC_NO", 
+			a."RTIC_ID", 
+			a."VERSION", 
+			a."CREATE_TIME", 
+			a."........pg.dropped.6........" 
+		FROM
+	</sql>
+
+	<sql id="FromSql">
+			m_traffic_road_rtic a 
+	</sql>
+
+	<insert id="insert" parameterType="java.util.HashMap">
+		INSERT INTO m_traffic_road_rtic
+		(
+		<foreach item="value" index="key" collection="entity" separator=",">
+			${key}
+		</foreach>
+		)VALUES(
+		<foreach item="value" index="key" collection="entity" separator=",">
+			#{value}
+		</foreach>
+		)
+	 </insert>
+
+	<update id="update" parameterType="java.util.HashMap">
+		update m_traffic_road_rtic
+		<set>
+		<foreach item="value" index="key" collection="entity" separator=",">
+			<if test="key!='ID'  and value!=null">${key}= #{value}</if>
+		</foreach>
+		</set>
+			 where "ID" = #{id}
+	 </update>
+
+	<select id="queryList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="querySql"/>
+		<include refid="FromSql"/>
+		<if test="queryFilterSql !='' and queryFilterSql!=null">
+			WHERE ${queryFilterSql}
+		 </if>
+		<if test="sortSql !='' and sortSql!=null">
+			 order by ${sortSql}
+		 </if>
+	</select>
+
+	<select id="querySize" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+			count(*)
+		FROM
+			<include refid="FromSql"/>
+		<if test="queryFilterSql !='' and queryFilterSql!=null">
+			 WHERE ${queryFilterSql}
+		 </if>
+	</select>
+
+	<select id="findById" parameterType="java.lang.String"
+		resultType="com.cennavi.trafficsystem.roadsituation.web.model.MTrafficRoadRtic">
+			SELECT
+			 *
+			FROM
+			m_traffic_road_rtic
+		WHERE "ID" = #{id}
+	</select>
+
+
+</mapper>

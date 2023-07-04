@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cennavi.trafficsystem.roadsituation.web.model.MGeomRelation">
+
+	<resultMap id="BaseResultMap" type="com.cennavi.trafficsystem.roadsituation.web.model.MGeomRelation">
+		<result property="geomId" column="geom_id" jdbcType = "VARCHAR" />
+		<result property="geom" column="geom" jdbcType = "TEXT" />
+		<result property="isDel" column="is_del" jdbcType = "INTEGER" />
+		<result property="delDate" column="del_date" jdbcType = "TIMESTAMP" />
+		<result property="addDate" column="add_date" jdbcType = "TIMESTAMP" />
+		<result property="updDate" column="upd_date" jdbcType = "TIMESTAMP" />
+		<result property="addUserId" column="add_user_id" jdbcType = "INTEGER" />
+		<result property="addUserName" column="add_user_name" jdbcType = "VARCHAR" />
+		<result property="version" column="version" jdbcType = "VARCHAR" />
+	</resultMap>
+
+	<sql id="querySql">
+		SELECT
+			a."geom_id", 
+			a."geom", 
+			a."is_del", 
+			a."del_date", 
+			a."add_date", 
+			a."upd_date", 
+			a."add_user_id", 
+			a."add_user_name", 
+			a."version" 
+		FROM
+	</sql>
+
+	<sql id="FromSql">
+			m_geom_relation a 
+	</sql>
+
+	<insert id="insert" parameterType="java.util.HashMap">
+		INSERT INTO m_geom_relation
+		(
+		<foreach item="value" index="key" collection="entity" separator=",">
+			${key}
+		</foreach>
+		)VALUES(
+		<foreach item="value" index="key" collection="entity" separator=",">
+			#{value}
+		</foreach>
+		)
+	 </insert>
+
+	<update id="update" parameterType="java.util.HashMap">
+		update m_geom_relation
+		<set>
+		<foreach item="value" index="key" collection="entity" separator=",">
+			<if test="key!='ID'  and value!=null">${key}= #{value}</if>
+		</foreach>
+		</set>
+			 where "ID" = #{id}
+	 </update>
+
+	<select id="queryList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="querySql"/>
+		<include refid="FromSql"/>
+		<if test="queryFilterSql !='' and queryFilterSql!=null">
+			WHERE ${queryFilterSql}
+		 </if>
+		<if test="sortSql !='' and sortSql!=null">
+			 order by ${sortSql}
+		 </if>
+	</select>
+
+	<select id="querySize" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+			count(*)
+		FROM
+			<include refid="FromSql"/>
+		<if test="queryFilterSql !='' and queryFilterSql!=null">
+			 WHERE ${queryFilterSql}
+		 </if>
+	</select>
+
+	<select id="findById" parameterType="java.lang.String"
+		resultType="com.cennavi.trafficsystem.roadsituation.web.model.MGeomRelation">
+			SELECT
+			 *
+			FROM
+			m_geom_relation
+		WHERE "ID" = #{id}
+	</select>
+
+
+</mapper>

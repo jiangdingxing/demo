@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cennavi.trafficsystem.roadsituation.web.model.UploadVersion">
+
+	<resultMap id="BaseResultMap" type="com.cennavi.trafficsystem.roadsituation.web.model.UploadVersion">
+		<result property="uuid" column="uuid" jdbcType = "VARCHAR" />
+		<result property="version" column="version" jdbcType = "INTEGER" />
+		<result property="addDate" column="add_date" jdbcType = "TIMESTAMP" />
+		<result property="delDate" column="del_date" jdbcType = "TIMESTAMP" />
+		<result property="isDel" column="is_del" jdbcType = "INTEGER" />
+		<result property="userId" column="user_id" jdbcType = "INTEGER" />
+		<result property="userName" column="user_name" jdbcType = "VARCHAR" />
+	</resultMap>
+
+	<sql id="querySql">
+		SELECT
+			a."uuid", 
+			a."version", 
+			a."add_date", 
+			a."del_date", 
+			a."is_del", 
+			a."user_id", 
+			a."user_name" 
+		FROM
+	</sql>
+
+	<sql id="FromSql">
+			upload_version a 
+	</sql>
+
+	<insert id="insert" parameterType="java.util.HashMap">
+		INSERT INTO upload_version
+		(
+		<foreach item="value" index="key" collection="entity" separator=",">
+			${key}
+		</foreach>
+		)VALUES(
+		<foreach item="value" index="key" collection="entity" separator=",">
+			#{value}
+		</foreach>
+		)
+	 </insert>
+
+	<update id="update" parameterType="java.util.HashMap">
+		update upload_version
+		<set>
+		<foreach item="value" index="key" collection="entity" separator=",">
+			<if test="key!='ID'  and value!=null">${key}= #{value}</if>
+		</foreach>
+		</set>
+			 where "ID" = #{id}
+	 </update>
+
+	<select id="queryList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="querySql"/>
+		<include refid="FromSql"/>
+		<if test="queryFilterSql !='' and queryFilterSql!=null">
+			WHERE ${queryFilterSql}
+		 </if>
+		<if test="sortSql !='' and sortSql!=null">
+			 order by ${sortSql}
+		 </if>
+	</select>
+
+	<select id="querySize" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+			count(*)
+		FROM
+			<include refid="FromSql"/>
+		<if test="queryFilterSql !='' and queryFilterSql!=null">
+			 WHERE ${queryFilterSql}
+		 </if>
+	</select>
+
+	<select id="findById" parameterType="java.lang.String"
+		resultType="com.cennavi.trafficsystem.roadsituation.web.model.UploadVersion">
+			SELECT
+			 *
+			FROM
+			upload_version
+		WHERE "ID" = #{id}
+	</select>
+
+
+</mapper>

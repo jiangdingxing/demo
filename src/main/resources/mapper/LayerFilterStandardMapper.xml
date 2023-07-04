@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cennavi.trafficsystem.roadsituation.web.model.LayerFilterStandard">
+
+	<resultMap id="BaseResultMap" type="com.cennavi.trafficsystem.roadsituation.web.model.LayerFilterStandard">
+		<result property="layerId" column="layer_id" jdbcType = "VARCHAR" />
+		<result property="solutionId" column="solution_id" jdbcType = "INTEGER" />
+		<result property="layerName" column="layer_name" jdbcType = "VARCHAR" />
+		<result property="layerNameCn" column="layer_name_cn" jdbcType = "VARCHAR" />
+		<result property="geometryType" column="geometry_type" jdbcType = "VARCHAR" />
+		<result property="minZoom" column="min_zoom" jdbcType = "INTEGER" />
+		<result property="where" column="where" jdbcType = "VARCHAR" />
+		<result property="select" column="select" jdbcType = "VARCHAR" />
+		<result property="isDel" column="is_del" jdbcType = "INTEGER" />
+		<result property="delDate" column="del_date" jdbcType = "TIMESTAMP" />
+		<result property="addDate" column="add_date" jdbcType = "TIMESTAMP" />
+		<result property="addUserId" column="add_user_id" jdbcType = "INTEGER" />
+		<result property="addUserName" column="add_user_name" jdbcType = "VARCHAR" />
+		<result property="maxZoom" column="max_zoom" jdbcType = "INTEGER" />
+		<result property="uuid" column="uuid" jdbcType = "VARCHAR" />
+		<result property="version" column="version" jdbcType = "INTEGER" />
+	</resultMap>
+
+	<sql id="querySql">
+		SELECT
+			a."layer_id", 
+			a."solution_id",
+			a."layer_name", 
+			a."layer_name_cn", 
+			a."geometry_type", 
+			a."min_zoom", 
+			a."where", 
+			a."select", 
+			a."is_del", 
+			a."del_date", 
+			a."add_date", 
+			a."add_user_id", 
+			a."add_user_name", 
+			a."max_zoom", 
+			a."uuid", 
+			a."version" 
+		FROM
+	</sql>
+
+	<sql id="FromSql">
+			layer_filter_standard a 
+	</sql>
+
+
+
+</mapper>

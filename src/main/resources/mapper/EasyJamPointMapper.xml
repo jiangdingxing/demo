@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cennavi.trafficsystem.roadsituation.web.model.EasyJamPoint">
+
+	<resultMap id="BaseResultMap" type="com.cennavi.trafficsystem.roadsituation.web.model.EasyJamPoint">
+		<result property="easyJamId" column="easy_jam_id" jdbcType = "INTEGER" />
+		<result property="site" column="site" jdbcType = "VARCHAR" />
+		<result property="roadName" column="road_name" jdbcType = "VARCHAR" />
+		<result property="roadTypeName" column="road_type_name" jdbcType = "VARCHAR" />
+		<result property="businessUnit" column="business_unit" jdbcType = "VARCHAR" />
+		<result property="easyJamDirection" column="easy_jam_direction" jdbcType = "VARCHAR" />
+		<result property="easyJamDegree" column="easy_jam_degree" jdbcType = "VARCHAR" />
+		<result property="easyJamTime" column="easy_jam_time" jdbcType = "VARCHAR" />
+		<result property="easyJamPositionName" column="easy_jam_position_name" jdbcType = "VARCHAR" />
+		<result property="easyJamCoordinate" column="easy_jam_coordinate" jdbcType = "VARCHAR" />
+		<result property="easyJamType" column="easy_jam_type" jdbcType = "VARCHAR" />
+		<result property="flagMonitoringDevice" column="flag_monitoring_device" jdbcType = "VARCHAR" />
+		<result property="flagAccessPlatform" column="flag_access_platform" jdbcType = "VARCHAR" />
+		<result property="jamCauseAnalysis" column="jam_cause_analysis" jdbcType = "VARCHAR" />
+		<result property="dredgingMeasures" column="dredging_measures" jdbcType = "VARCHAR" />
+		<result property="geometryType" column="geometry_type" jdbcType = "VARCHAR" />
+	</resultMap>
+
+	<sql id="querySql">
+		SELECT
+			a."easy_jam_id", 
+			a."site", 
+			a."road_name", 
+			a."road_type_name", 
+			a."business_unit", 
+			a."easy_jam_direction", 
+			a."easy_jam_degree", 
+			a."easy_jam_time", 
+			a."easy_jam_position_name", 
+			a."easy_jam_coordinate", 
+			a."easy_jam_type", 
+			a."flag_monitoring_device", 
+			a."flag_access_platform", 
+			a."jam_cause_analysis", 
+			a."dredging_measures", 
+			a."geometry_type" 
+		FROM
+	</sql>
+
+	<sql id="FromSql">
+			easy_jam_point a 
+	</sql>
+
+	<insert id="insert" parameterType="java.util.HashMap">
+		INSERT INTO easy_jam_point
+		(
+		<foreach item="value" index="key" collection="entity" separator=",">
+			${key}
+		</foreach>
+		)VALUES(
+		<foreach item="value" index="key" collection="entity" separator=",">
+			#{value}
+		</foreach>
+		)
+	 </insert>
+
+	<update id="update" parameterType="java.util.HashMap">
+		update easy_jam_point
+		<set>
+		<foreach item="value" index="key" collection="entity" separator=",">
+			<if test="key!='ID'  and value!=null">${key}= #{value}</if>
+		</foreach>
+		</set>
+			 where "ID" = #{id}
+	 </update>
+
+	<select id="queryList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="querySql"/>
+		<include refid="FromSql"/>
+		<if test="queryFilterSql !='' and queryFilterSql!=null">
+			WHERE ${queryFilterSql}
+		 </if>
+		<if test="sortSql !='' and sortSql!=null">
+			 order by ${sortSql}
+		 </if>
+	</select>
+
+	<select id="querySize" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+			count(*)
+		FROM
+			<include refid="FromSql"/>
+		<if test="queryFilterSql !='' and queryFilterSql!=null">
+			 WHERE ${queryFilterSql}
+		 </if>
+	</select>
+
+	<select id="findById" parameterType="java.lang.String"
+		resultType="com.cennavi.trafficsystem.roadsituation.web.model.EasyJamPoint">
+			SELECT
+			 *
+			FROM
+			easy_jam_point
+		WHERE "ID" = #{id}
+	</select>
+
+
+</mapper>

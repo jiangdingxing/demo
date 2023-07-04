@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.cennavi.trafficsystem.roadsituation.web.model.TTrafficRoadAll">
+
+	<resultMap id="BaseResultMap" type="com.cennavi.trafficsystem.roadsituation.web.model.TTrafficRoadAll">
+		<result property="roadId" column="ROAD_ID" jdbcType = "BIGINT" />
+		<result property="roadType" column="ROAD_TYPE" jdbcType = "INTEGER" />
+		<result property="roadKind" column="ROAD_KIND" jdbcType = "INTEGER" />
+		<result property="roadName" column="ROAD_NAME" jdbcType = "VARCHAR" />
+		<result property="aliasName" column="ALIAS_NAME" jdbcType = "VARCHAR" />
+		<result property="startName" column="START_NAME" jdbcType = "VARCHAR" />
+		<result property="endName" column="END_NAME" jdbcType = "VARCHAR" />
+		<result property="direction" column="DIRECTION" jdbcType = "INTEGER" />
+		<result property="roadLength" column="ROAD_LENGTH" jdbcType = "DOUBLE PRECISION" />
+		<result property="roadCarnum" column="ROAD_CARNUM" jdbcType = "INTEGER" />
+		<result property="roadWidth" column="ROAD_WIDTH" jdbcType = "INTEGER" />
+		<result property="roadCenter" column="ROAD_CENTER" jdbcType = "VARCHAR" />
+		<result property="roadGeometry" column="ROAD_GEOMETRY" jdbcType = "VARCHAR" />
+		<result property="invalid" column="INVALID" jdbcType = "INTEGER" />
+		<result property="version" column="VERSION" jdbcType = "VARCHAR" />
+		<result property="createTime" column="CREATE_TIME" jdbcType = "TIMESTAMP" />
+	</resultMap>
+
+	<sql id="querySql">
+		SELECT
+			a."ROAD_ID", 
+			a."ROAD_TYPE", 
+			a."ROAD_KIND", 
+			a."ROAD_NAME", 
+			a."ALIAS_NAME", 
+			a."START_NAME", 
+			a."END_NAME", 
+			a."DIRECTION", 
+			a."ROAD_LENGTH", 
+			a."ROAD_CARNUM", 
+			a."ROAD_WIDTH", 
+			a."ROAD_CENTER", 
+			a."ROAD_GEOMETRY", 
+			a."INVALID", 
+			a."VERSION", 
+			a."CREATE_TIME" 
+		FROM
+	</sql>
+
+	<sql id="FromSql">
+			t_traffic_road_all a 
+	</sql>
+
+	<insert id="insert" parameterType="java.util.HashMap">
+		INSERT INTO t_traffic_road_all
+		(
+		<foreach item="value" index="key" collection="entity" separator=",">
+			${key}
+		</foreach>
+		)VALUES(
+		<foreach item="value" index="key" collection="entity" separator=",">
+			#{value}
+		</foreach>
+		)
+	 </insert>
+
+	<update id="update" parameterType="java.util.HashMap">
+		update t_traffic_road_all
+		<set>
+		<foreach item="value" index="key" collection="entity" separator=",">
+			<if test="key!='ID'  and value!=null">${key}= #{value}</if>
+		</foreach>
+		</set>
+			 where "ID" = #{id}
+	 </update>
+
+	<select id="queryList" parameterType="java.util.Map" resultMap="BaseResultMap">
+		<include refid="querySql"/>
+		<include refid="FromSql"/>
+		<if test="queryFilterSql !='' and queryFilterSql!=null">
+			WHERE ${queryFilterSql}
+		 </if>
+		<if test="sortSql !='' and sortSql!=null">
+			 order by ${sortSql}
+		 </if>
+	</select>
+
+	<select id="querySize" parameterType="java.util.Map" resultType="java.lang.Integer">
+		SELECT
+			count(*)
+		FROM
+			<include refid="FromSql"/>
+		<if test="queryFilterSql !='' and queryFilterSql!=null">
+			 WHERE ${queryFilterSql}
+		 </if>
+	</select>
+
+	<select id="findById" parameterType="java.lang.String"
+		resultType="com.cennavi.trafficsystem.roadsituation.web.model.TTrafficRoadAll">
+			SELECT
+			 *
+			FROM
+			t_traffic_road_all
+		WHERE "ID" = #{id}
+	</select>
+
+
+</mapper>

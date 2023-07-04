@@ -1,0 +1,8 @@
+server:
+  port: 9998
+database_config:
+  jdbc_url: jdbc:postgresql://113.108.157.29:8004/quickmap
+  jdbc_user: postgres
+  jdbc_pwd: superman@2019
+  driver: org.postgresql.Driver
+
