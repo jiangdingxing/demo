@@ -20,7 +20,7 @@ public class PgSQlGenerateEntityUtil {
         //PgSQlGenerateEntityUtil.basePath=""; //指定生成的位置,默认是当前工程
         //pgGen.needEntityHelper=true;
         //生成的包名
-        PgSQlGenerateEntityUtil.packageOutPath = "com.cennavi.trafficsystem.roadsituation.web.model";
+        PgSQlGenerateEntityUtil.packageOutPath = "com.connavi.minedataextend.web.pojo.entity";
         pgGen.generate();
         System.out.println("generate Entity to classes successful!");
 
@@ -55,9 +55,9 @@ public class PgSQlGenerateEntityUtil {
     private static final SimpleDateFormat SDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     // 数据库配置信息
-    private static final String JDBC_URL = "jdbc:postgresql://192.168.219.223:9432/vector_all_database";
+    private static final String JDBC_URL = "jdbc:postgresql://192.168.100.53:16430/deploy_s14_auth";
     public static final String jdbc_user = "postgres";
-    public static final String jdbc_pwd = "superman@2019";
+    public static final String jdbc_pwd = "Superman@2021";
     private static final String DRIVER = "org.postgresql.Driver";
 
     //指定实体生成所在包的路径
@@ -67,8 +67,7 @@ public class PgSQlGenerateEntityUtil {
     //作者名字
     private static final String authorName = "jiangDingXing";
     //指定需要生成的表的表名，全部生成设置为null
-    private String[] generateTables = {"AOI","BLDG_P","BUI_S","GRE_S","GREB_S","LAK_S","POI","RAI_L","RES_S",
-        "ROA_S","SEA_S","TRA_CL","XZQH_L","XZQH_P","XZQH_S"};
+    private String[] generateTables = {"t_role","t_user","t_key","t_key_limit","t_user_role","t_api"};
 
     //主键
     private static String pk;
